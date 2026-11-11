@@ -1,6 +1,8 @@
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
+import '../models/frase.dart';
+
 class FrasesDb {
   FrasesDb._();
   static final FrasesDb instancia = FrasesDb._();
@@ -29,5 +31,35 @@ autor TEXT NOT NULL
 ''');
       },
     );
+  }
+
+  // Guarda y devuelve el id.
+  Future<int> insert(Frase frase) async {
+    final db = await _database;
+    return db.insert(_tabla, frase.toMap());
+  }
+
+  // Lee todas las frases de manera descendente.
+  Future<List<Frase>> obtenerTodas() async {
+    final db = await _database;
+    final filas = await db.query(_tabla, orderBy: 'id DESC');
+    return filas.map(Frase.fromMap).toList();
+  }
+
+  // Modifica usando el id.
+  Future<int> actualizar(Frase frase) async {
+    final db = await _database;
+    return db.update(
+      _tabla,
+      frase.toMap(),
+      where: 'id = ?',
+      whereArgs: [frase.id],
+    );
+  }
+
+  // Elimina la frase con el id.
+  Future<int> eliminar(int id) async {
+    final db = await _database;
+    return db.delete(_tabla, where: 'id = ?', whereArgs: [id]);
   }
 }
