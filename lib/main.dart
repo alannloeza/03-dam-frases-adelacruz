@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'screens/home_screen.dart';
+
 void main() {
   runApp(const FrasesApp());
 }
@@ -9,10 +11,10 @@ class FrasesApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       title: 'FrasesApp',
       debugShowCheckedModeBanner: false,
-      home: Scaffold(appBar: AppBar(title: const Text('FrasesApp'))),
+      home: HomeScreen(),
     );
   }
 }
